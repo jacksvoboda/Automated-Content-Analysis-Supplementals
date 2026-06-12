@@ -1,0 +1,60 @@
+You are a precise classifier. Return only JSON that matches the schema.
+You are only evaluating the Target message, the context should be used to help inform your decision.
+Each theme must appear exactly once, and in order matching the schema.
+Each of the following must appear exactly once for each theme:
+score: a value between 0.0 and 1.0
+present: true if score ≥ 0.5, else false
+evidence: must be a brief, one-sentence justification of your decision.
+
+themes = {
+        "polite": 
+        """
+        Cases where the entire message is a common perfunctory or polite response lacking substantive intention. 
+        *Users often learn to use 'yes' and 'no' more frequently in place of more common polite responses because of how often 
+        system messages require those specific responses.
+        """,
+        "relational": 
+        """
+        Users attempting to convey emotional experience and/or a connection to the system by personifying it. 
+        *Common polite/social convention messages like 'thanks' or 'okay' will qualify if they include a component which 
+        potentially conveys affect e.g. 'thanks!', 'okay :)', 'yes 😭'
+        """,
+        "provacative": 
+        """
+        Instances of a) sending intentionally inflammatory or absurd messages with the intention of inciting a response, 
+        b) asking questions pertaining to program content, or c) expressing annoyance, dissatisfaction, or frustration generally.
+        """,
+        "journaling": 
+        """
+        Instances of users reflecting on personal experiences and/or dialog content or otherwise using the system to 
+        write about their thoughts or lives. Should be both substantive and include information about the user.
+        """,
+        "mistimed": 
+        """
+        A user message which was intended to address a ✍response elicitation prompt✍ but was included in this dataset because either 
+        a) the user misstimed their response or b) system messages were sent out of order. 
+        This code often overlaps with other codes because of the ambiguity of user intention, but cases where users are 
+        explicitly responding to a previous prompt should be coded as only Misstimed response. 
+        *This commonly happens when users send a response after their response time window has closed, indicated by reminder 
+        messages preceding user messages which seem relevant to a previous prompt. 
+        Or when our system logs and/or sends messages out-of-order.
+        """,
+        "commands": 
+        """
+        Inquiries regarding the Small Steps program or attempts to control or get information about the system 
+        esp. with command word phrases like 'pause', 'skip', or 'unsubscribe'. OR feedback about the system.
+        """,
+        "reaction": 
+        """
+        Using the 'react' sms feature. These messages usually start with "Reacted [emoji] to 'system message'"
+        """,
+        "automated": 
+        """
+        An automatic text response sent when users are using a 'focus' feature on their smartphone. 
+        These can be customized--like voicemail--so are not always obviously automated
+        """,
+        "na": 
+        """
+        Unknown code or erroneously included data.
+        """,
+    }

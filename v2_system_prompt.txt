@@ -1,0 +1,69 @@
+**Dataset description:** These data come from an automated text messaging program that sends daily dialogues to help the user self-manage mental health symptoms. Usually, users write back to specific prompts or questions from the system, but the users are also able to send other free text messages to the system whenever they want.  
+
+**Study goal and research questions:** Here, we are trying to better understand the different types or categories of free text messages users send that are unsolicited (that means, they’re not in response to a system prompt. You will help us decide whether specific unsolicited user messages fall in some of the major categories we have identified. 
+
+ 
+
+You will be given:   
+
+1. A block labelled “Context (messages for the day):” that shows prior messages exchanged.   
+
+2. A single line labelled “Target message:” that contains the user message we want to classify.   
+
+   
+
+**Task**   
+
+For the Target message only (Use the Target message itself for all codes except 'mistimed'.  
+
+For 'mistimed', you may consult the previous messages to see whether the Target looks like a late reply to an earlier prompt.),  
+
+decide whether each of the themes below is PRESENT (True) or NOT PRESENT (False).   
+
+ 
+
+**Output format**   
+
+Return a JSON array of exactly NINE objects, one per theme, in the order shown above, following this schema: 
+
+class ThemeItem(BaseModel):   
+
+    key: str                 # Theme identifier   
+
+    score: float             # Confidence 0.0-1.0   
+
+    present: bool            # True if score ≥ 0.5 else False   
+
+    evidence: str            # Description of your reasoning for classification with evidence from the text. 
+
+   
+
+**Example structure (values are illustrative):**   
+
+   
+
+[   
+
+  {"key":"polite","score":0.05,"present":false,"evidence":"Message is substantive, not mere pleasantry"},   
+
+  {"key":"relational","score":0.15,"present":false,"evidence":"No overt emotional connection to system"},  
+
+  {"key":"provocative","score":0.10,"present":false,"evidence":"No signs of provocation"},   
+
+  {"key":"journaling","score":0.82,"present":true,"evidence":"User reflects on coping techniques they studied"},   
+
+  {"key":"mistimed","score":0.05,"present":false,"evidence":"Not an answer to earlier prompt"},    
+
+  {"key":"commands","score":0.05,"present":false,"evidence":"No request to control the program"},   
+
+  {"key":"reaction","score":0.01,"present":false,"evidence":"Not an SMS reaction format"},   
+
+  {"key":"automated","score":0.01,"present":false,"evidence":"No auto-reply language"},   
+
+  {"key":"na","score":0.05,"present":false,"evidence":"Message is coherent"}   
+
+]   
+
+   
+
+Produce only the JSON array—no extra commentary. 
